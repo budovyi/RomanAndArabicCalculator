@@ -1,69 +1,41 @@
 package mergesort;
 
 public class MergeSort {
-    public static int[] sort(int[] array) {
-        array = divideArray(array);
-        return array;
+    public static void sort(int[] array) {
+        divideArray(array, 0, array.length - 1);
     }
 
-    private static int[] divideArray(int[] array) {
-        if (1 == array.length) {
-            return array;
-        } else if (2 >= array.length) {
-            if (array[0] > array[1]) {
-                int t = array[1];
-                array[1] = array[0];
-                array[0] = t;
-            }
-            return array;
+    public static void divideArray(int[] array, int leftStart, int rightEnd) {
+        if (leftStart == rightEnd) {
+            return;
         }
-        int m = array.length / 2;
-        int[] arrayL = new int[m];
-        int[] arrayR = new int[array.length - m];
+        int mid = (leftStart + rightEnd) / 2;
 
-        for (int i = 0; i < array.length; i++) {
-            if (i < m) {
-                arrayL[i] = array[i];
-            }
-            if (i >= m) {
-                arrayR[i - m] = array[i];
-            }
-        }
-        arrayL = divideArray(arrayL);
-        arrayR = divideArray(arrayR);
-        array = mergeArrays(arrayL, arrayR);
+        divideArray(array, leftStart, mid);
+        divideArray(array, mid + 1, rightEnd);
 
-        return array;
+        mergeArrays(array, leftStart, mid, rightEnd);
     }
 
-    private static int[] mergeArrays(int[] arrayL, int[] arrayR) {
-        int[] mergedArray = new int[arrayL.length + arrayR.length];
-        int leftIndex = 0;
-        int rightIndex = 0;
-        boolean bool;
-        int i = 0;
-        while (leftIndex < arrayL.length && rightIndex < arrayR.length) {
-            bool = arrayL[leftIndex] <= arrayR[rightIndex];
+    private static void mergeArrays(int[] array, int leftStart, int mid, int rightEnd) {
+        int rightStart = mid + 1;
+        while (leftStart < rightEnd && rightStart <= rightEnd) {
+            boolean bool = array[leftStart] < array[rightStart];
+
             if (bool) {
-                mergedArray[i] = arrayL[leftIndex];
-                leftIndex++;
+                leftStart++;
             } else {
-                mergedArray[i] = arrayR[rightIndex];
-                rightIndex++;
-            }
-            i++;
-        }
+                int t = array[rightStart];
+                int i = rightStart;
 
-        while (leftIndex < arrayL.length) {
-            mergedArray[i] = arrayL[leftIndex];
-            leftIndex++;
-            i++;
+                while (i > leftStart) {
+                    array[i] = array[i - 1];
+                    i--;
+                }
+                array[leftStart] = t;
+                leftStart++;
+                rightStart++;
+            }
         }
-        while (rightIndex < arrayR.length) {
-            mergedArray[i] = arrayR[rightIndex];
-            rightIndex++;
-            i++;
-        }
-        return mergedArray;
     }
 }
