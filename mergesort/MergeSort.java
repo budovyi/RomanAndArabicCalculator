@@ -20,9 +20,9 @@ public class MergeSort {
     private static void mergeArrays(int[] array, int leftStart, int mid, int rightEnd) {
         int rightStart = mid + 1;
         while (leftStart < rightEnd && rightStart <= rightEnd) {
-            boolean bool = array[leftStart] < array[rightStart];
+            boolean leftLessThanRight = array[leftStart] < array[rightStart];
 
-            if (bool) {
+            if (leftLessThanRight) {
                 leftStart++;
             } else {
                 int t = array[rightStart];
