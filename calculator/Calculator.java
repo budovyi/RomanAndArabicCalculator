@@ -10,8 +10,9 @@ public class Calculator {
         String numbers = "";
         String value = " ";
         int count = 0;
+        int notDigitIndex = 0;
         char ch = ' ';
-        boolean bool = false;
+        boolean digit = false;
 
         for (int i = 0; i < string.length(); i++) {
             if (Character.isDigit(string.charAt(i))) {
@@ -22,16 +23,19 @@ public class Calculator {
             string = RomanConverter.convert(string);
         }
 
-        // break a string into substrings
+        while (!Character.isDigit(string.charAt(notDigitIndex))) {
+            notDigitIndex++;
+        }
+
         for (int i = 0; i < string.length(); i++) {
             ch = string.charAt(i);
             value = string.substring(i, i + 1);
 
             if (Character.isDigit(ch)) {
-                bool = true;
+                digit = true;
                 numbers = numbers + value;
             }
-            if (false == bool) {
+            if (!digit) {
                 if (0 == i || !Character.isDigit(string.charAt(i - 1))) {
                     list.add(value);
                 } else {
@@ -40,7 +44,11 @@ public class Calculator {
                     numbers = "";
                 }
             }
-            bool = false;
+            digit = false;
+            if (0 < i && string.charAt(i - 1) == '-' && i <= notDigitIndex) {
+                list.add(i - 1, "0");
+            }
+
             if (i == string.length() - 1) {
                 if (Character.isDigit(ch)) {
                     list.add(numbers);
@@ -56,7 +64,6 @@ public class Calculator {
             return list;
         }
 
-        // check for '(' chars in array
         char ch = ' ';
         for (int i = 0; i < list.size(); i++) {
             ch = list.get(i).charAt(0);
@@ -67,13 +74,16 @@ public class Calculator {
             }
         }
 
-        // calculating
         if (1 == list.size()) {
             return list;
         }
-        if (Character.isDigit(list.get(0).charAt(0))) {
+
+        if ((Character.isDigit(list.get(0).charAt(0)) || Character.isDigit(list.get(0).charAt(1)))) {
+
             switch (list.get(1).charAt(0)) {
                 case '*':
+                    Integer.parseInt(list.get(0));
+
                     result = Integer.valueOf(list.get(0)) *
                             Integer.valueOf(list.get(2));
                     list.set(0, Integer.toString(result));

@@ -50,24 +50,24 @@ public class RomanConverter {
         }
         return sb.toString();
     }
-}
 
-enum Roman {
-    I(1),
-    V(5),
-    X(10),
-    L(50),
-    C(100),
-    D(500),
-    M(1000);
+    private enum Roman {
+        I(1),
+        V(5),
+        X(10),
+        L(50),
+        C(100),
+        D(500),
+        M(1000);
 
-    private int value;
+        private int value;
 
-    Roman(int number) {
-        value = number;
-    }
+        Roman(int number) {
+            value = number;
+        }
 
-    public int getValue() {
-        return value;
+        private int getValue() {
+            return value;
+        }
     }
 }
